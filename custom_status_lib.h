@@ -14,4 +14,4 @@ enum class CustomStatus {
 
 extern const char *kCustomStatusDescription[];
 
-#endif //TEXTHOLDER_CUSTOM_STATUS_LIB_H
+#endif  // TEXTHOLDER_CUSTOM_STATUS_LIB_H

@@ -7,4 +7,4 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Normaliser normaliser.cpp custom_char_types.cpp custom_file_io.cpp custom_status_lib.cpp)
 
-add_executable(TextHolder text_holder.cpp custom_file_io.cpp custom_char_types.cpp custom_lines_lib.cpp custom_status_lib.cpp)
+add_executable(TextHolder text_holder.cpp custom_file_io.cpp custom_char_types.cpp custom_lines_lib.cpp custom_status_lib.cpp main.cpp)

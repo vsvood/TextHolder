@@ -4,35 +4,57 @@
 
 #include "custom_file_io.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <unistd.h>
+
+#include <cstdio>
 
 #include "custom_status_lib.h"
 
-CustomStatus CheckInputFile(const char *path) {
-  if (path == nullptr)
+CustomStatus GetFileSize(const char *path, size_t *size) {
+  if (CheckInputFile(path) != CustomStatus::kOk) {
     return CustomStatus::kWrongInputParams;
+  }
 
-  printf("Checking input file '%s'...", path);
-  if (access(path, F_OK) != 0) {
+  if (size == nullptr) {
+    return CustomStatus::kWrongOutputParams;
+  }
+
+  struct stat stats = {};
+  if (stat(path, &stats) != 0) {
+    return CustomStatus::kRuntimeError;
+  }
+
+  *size = (size_t)stats.st_size;
+  return CustomStatus::kOk;
+}
+
+CustomStatus CheckInputFile(const char *path) {
+  if (path == nullptr) {
+    return CustomStatus::kWrongInputParams;
+  }
+
+  struct stat stats = {};
+  if (stat(path, &stats) != 0) {
     printf("\nUnable to access file\n");
     printf("Please check whether file '%s' exists\n", path);
     return CustomStatus::kRuntimeError;
   }
-  printf("OK\n");
+  if ((stats.st_mode & S_IFMT) != S_IFREG) {
+    printf("\n'%s' is not a regular file\n", path);
+    return CustomStatus::kWrongInputParams;
+  }
+
   return CustomStatus::kOk;
 }
 
 CustomStatus CheckOutputFile(const char *path) {
-  if (path == nullptr)
-    return CustomStatus::kWrongInputParams;
+  if (path == nullptr) return CustomStatus::kWrongInputParams;
 
-  printf("Checking output file '%s'...", path);
-  if (access(path, F_OK) != 0) {
-    printf("\nUnable to access file\n");
+  struct stat stats = {};
+  if (stat(path, &stats) != 0) {
+    printf("Unable to access file\n");
     printf("Maybe file '%s' doesnt exists\n", path);
     printf("Do you want to create '%s' [y/n] ", path);
     char ans;
@@ -41,63 +63,71 @@ CustomStatus CheckOutputFile(const char *path) {
       printf("Exiting\n");
       return CustomStatus::kRuntimeError;
     }
-    int output_descriptor = open(path, O_CREAT|O_TRUNC, 0666);
+    int output_descriptor = open(path, O_CREAT | O_TRUNC, 0666);
     if (output_descriptor > 0) {
       printf("Create success\n");
       close(output_descriptor);
+      stat(path, &stats);
     } else {
       printf("Fail creating '%s'\n", path);
       return CustomStatus::kRuntimeError;
     }
   }
-
-  printf("OK\n");
+  if ((stats.st_mode & S_IFMT) != S_IFREG) {
+    printf("Error: '%s' is not a regular file\n", path);
+    return CustomStatus::kWrongInputParams;
+  }
 
   return CustomStatus::kOk;
 }
 
-CustomStatus ReadFromFile(const char *path, char **buffer, long *size) {
-  if (CheckInputFile(path) != CustomStatus::kOk)
+CustomStatus ReadFromFile(const char *path, char *buffer, size_t *size) {
+  if (CheckInputFile(path) != CustomStatus::kOk) {
     return CustomStatus::kWrongInputParams;
-  if (buffer == nullptr)
+  }
+  if (buffer == nullptr) {
     return CustomStatus::kWrongOutputParams;
-  if (size == nullptr)
-    return CustomStatus::kWrongOutputParams;
-
-  printf("Reading from '%s'...", path);
-
-  struct stat file_stats = {};
-  stat(path, &file_stats);
+  }
 
   int input_descriptor = open(path, O_RDONLY);
-  if (input_descriptor < 0)
+  if (input_descriptor < 0) {
+    printf("Can`t open file for reading\n");
     return CustomStatus::kRuntimeError;
-  *buffer = (char*)calloc((size_t)file_stats.st_size, sizeof(char));
-  *size = read(input_descriptor, *buffer, (size_t)file_stats.st_size);
-  close(input_descriptor);
+  }
 
-  printf("OK\n");
+  long tmp = read(input_descriptor, buffer, *size);
+  if (tmp < 0) {
+    printf("Failed reading from file\n");
+    return CustomStatus::kRuntimeError;
+  }
+  *size = (size_t)tmp;
+
+  close(input_descriptor);
 
   return CustomStatus::kOk;
 }
 
-CustomStatus WriteToFile(const char *path, const char *buffer, const long size) {
-  if(CheckOutputFile(path) != CustomStatus::kOk) {
+CustomStatus WriteToFile(const char *path, const char *buffer, size_t size) {
+  if (CheckOutputFile(path) != CustomStatus::kOk) {
     return CustomStatus::kWrongInputParams;
   }
   if (buffer == nullptr) {
     return CustomStatus::kWrongInputParams;
   }
 
-  printf("Writing to '%s'...", path);
-
-  int input_descriptor = open(path, O_WRONLY|O_TRUNC);
-  if (input_descriptor < 0)
+  int input_descriptor = open(path, O_WRONLY | O_TRUNC);
+  if (input_descriptor < 0) {
+    printf("Can`t open file for writing\n");
     return CustomStatus::kRuntimeError;
-  write(input_descriptor, (const void *)buffer, (unsigned)size);
-  close(input_descriptor);
+  }
 
-  printf("OK\n");
+  long tmp = write(input_descriptor, (const void *)buffer, (unsigned)size);
+  if (tmp < 0) {
+    printf("Failed writing to file\n");
+    return CustomStatus::kRuntimeError;
+  }
+
+  close(input_descriptor);
 
   return CustomStatus::kOk;
 }

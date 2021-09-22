@@ -6,14 +6,17 @@
 #define TEXTHOLDER_CUSTOM_FILE_IO_H
 
 #include <X11/Xlib.h>
+
 #include "custom_status_lib.h"
+
+CustomStatus GetFileSize(const char *path, size_t *size);
 
 CustomStatus CheckInputFile(const char *path);
 
 CustomStatus CheckOutputFile(const char *path);
 
-CustomStatus ReadFromFile(const char *path, char **buffer, long *size);
+CustomStatus ReadFromFile(const char *path, char *buffer, size_t *size);
 
-CustomStatus WriteToFile(const char *path, const char *buffer, long size);
+CustomStatus WriteToFile(const char *path, const char *buffer, size_t size);
 
-#endif //TEXTHOLDER_CUSTOM_FILE_IO_H
+#endif  // TEXTHOLDER_CUSTOM_FILE_IO_H

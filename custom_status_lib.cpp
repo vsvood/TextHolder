@@ -3,8 +3,5 @@
 //
 
 const char *kCustomStatusDescription[] = {
-  "Ok func exited normally",
-  "Wrong input params",
-  "Wrong output params",
-  "Something went wrong while running"
-};
+    "Ok func exited normally", "Wrong input params", "Wrong output params",
+    "Something went wrong while running"};

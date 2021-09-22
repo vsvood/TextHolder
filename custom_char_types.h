@@ -17,4 +17,4 @@ bool IsPunctuation(char chr);
 
 bool IsSpecialSymbol(char chr);
 
-#endif //TEXTHOLDER_CUSTOM_CHAR_TYPES_H
+#endif  // TEXTHOLDER_CUSTOM_CHAR_TYPES_H
