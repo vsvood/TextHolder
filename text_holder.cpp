@@ -8,7 +8,7 @@
 #include <cstdlib>
 
 #include "custom_file_io.h"
-#include "custom_lines_lib.h"
+#include "utils.h"
 #include "custom_status_lib.h"
 
 CustomStatus TextHolder::LoadFromFile(TextHolder *text_holder,

@@ -5,7 +5,7 @@
 #ifndef TEXTHOLDER_CUSTOM_FILE_IO_H
 #define TEXTHOLDER_CUSTOM_FILE_IO_H
 
-#include <X11/Xlib.h>
+#include <cstddef>
 
 #include "custom_status_lib.h"
 
