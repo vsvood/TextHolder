@@ -159,3 +159,16 @@ CustomStatus TextHolder::Dtor(TextHolder *text_holder) {
 
   return CustomStatus::kOk;
 }
+
+CustomStatus TextHolder::Ctor(TextHolder *text_holder) {
+  if (text_holder == nullptr) {
+    return CustomStatus::kWrongInputParams;
+  }
+
+  text_holder->index = nullptr;
+  text_holder->index_size = 0;
+  text_holder->text_buffer = nullptr;
+  text_holder->text_size = 0;
+
+  return CustomStatus::kOk;
+}

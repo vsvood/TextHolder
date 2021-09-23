@@ -16,7 +16,15 @@ int main() {
   scanf("%100s", input_path);
 
   TextHolder text_holder = {};
-  CustomStatus status = TextHolder::LoadFromFile(&text_holder, input_path);
+  CustomStatus status = TextHolder::Ctor(&text_holder);
+  if (status != CustomStatus::kOk) {
+    printf("Can't init text holder with '%s' error\n",
+           kCustomStatusDescription[(int)status]);
+    TextHolder::Dtor(&text_holder);
+    return 1;
+  }
+
+  status = TextHolder::LoadFromFile(&text_holder, input_path);
   if (status != CustomStatus::kOk) {
     printf("Can't load from '%s' with '%s' error\n", input_path,
            kCustomStatusDescription[(int)status]);

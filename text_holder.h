@@ -17,6 +17,20 @@ struct TextHolder {
   size_t text_size;
 
   /**
+   * @brief Initialise member variables
+   *
+   * @param text_holder - self
+   *
+   * @return member of CustomStatus:\n
+   * kOk - Ok func exited normally\n
+   * kWrongInputParams - Wrong input params\n
+   * kWrongOutputParams - Wrong output params\n
+   * kRuntimeError - Something went wrong while running
+   */
+
+  static CustomStatus Ctor(TextHolder *text_holder);
+
+  /**
    * @brief Free allocated memory
    *
    * @param[out] text_holder - self
