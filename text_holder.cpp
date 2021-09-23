@@ -8,8 +8,8 @@
 #include <cstdlib>
 
 #include "custom_file_io.h"
-#include "utils.h"
 #include "custom_status_lib.h"
+#include "utils.h"
 
 CustomStatus TextHolder::LoadFromFile(TextHolder *text_holder,
                                       const char *path) {
@@ -95,10 +95,9 @@ CustomStatus TextHolder::SortIndex(TextHolder *text_holder, __compar_fn_t cmp) {
     return CustomStatus::kWrongInputParams;
   }
 
-  qsort(text_holder->index, text_holder->index_size, sizeof(LineDescription),
-        cmp);
-
-  return CustomStatus::kOk;
+  CustomStatus status =
+      MyQSort(text_holder->index, text_holder->index_size, cmp);
+  return status;
 }
 
 CustomStatus TextHolder::SaveToFile(TextHolder *text_holder, const char *path) {

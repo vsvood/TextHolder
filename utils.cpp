@@ -109,3 +109,61 @@ int CompareLinesBackward(const void *line1, const void *line2) {
   }
   return (int)((pointer_1 - line_1->begin) - (pointer_2 - line_2->begin));
 }
+
+CustomStatus Partition(LineDescription *index, size_t n_elem,
+                       size_t *partition_index, __compar_fn_t cmp) {
+  if ((index == nullptr) || (partition_index == nullptr)) {
+    return CustomStatus::kWrongInputParams;
+  }
+  if (n_elem <= 1) {
+    return CustomStatus::kOk;
+  }
+
+  LineDescription pivot = index[n_elem - 1];
+  LineDescription *left_pointer = index;
+  LineDescription *right_pointer = index + n_elem - 1;
+
+  while (left_pointer != right_pointer) {
+    if (cmp(right_pointer, &pivot) >= 0) {
+      --right_pointer;
+      continue;
+    }
+    if (cmp(left_pointer, &pivot) < 0) {
+      ++left_pointer;
+      continue;
+    }
+    LineDescription tmp = *left_pointer;
+    *left_pointer = *right_pointer;
+    *right_pointer = tmp;
+  }
+
+  *partition_index = (size_t)(left_pointer - index + 1);
+
+  return CustomStatus::kOk;
+}
+
+CustomStatus MyQSort(LineDescription *index, size_t n_elem, __compar_fn_t cmp) {
+  if ((index == nullptr) || (cmp == nullptr)) {
+    return CustomStatus::kWrongInputParams;
+  }
+  if (n_elem <= 1) {
+    return CustomStatus::kOk;
+  }
+
+  size_t partition_index;
+  CustomStatus status = Partition(index, n_elem, &partition_index, cmp);
+  if (status != CustomStatus::kOk) {
+    return status;
+  }
+
+  status = MyQSort(index, partition_index, cmp);
+  if (status != CustomStatus::kOk) {
+    return status;
+  }
+  status = MyQSort(index + partition_index, n_elem - partition_index, cmp);
+  if (status != CustomStatus::kOk) {
+    return status;
+  }
+
+  return CustomStatus::kOk;
+}
