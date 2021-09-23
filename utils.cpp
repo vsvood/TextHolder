@@ -150,6 +150,14 @@ CustomStatus MyQSort(LineDescription *index, size_t n_elem, __compar_fn_t cmp) {
     return CustomStatus::kOk;
   }
 
+  bool is_sorted = false;
+  for (size_t i = 0; i < n_elem - 1; ++i) {
+    is_sorted &= (cmp(&index[i], &index[i + 1]));
+  }
+  if (is_sorted) {
+    return CustomStatus::kOk;
+  }
+
   size_t partition_index;
   CustomStatus status = Partition(index, n_elem, &partition_index, cmp);
   if (status != CustomStatus::kOk) {
