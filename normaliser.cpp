@@ -7,6 +7,21 @@
 
 const int kMaxPathLength = 100;
 
+/**
+ * @brief Normalize given text
+ *
+ * @param input_buffer - buffer to normalize
+ * @param input_size - size of input buffer
+ * @param output_buffer - buffer to write to
+ * @param output_size - size of output_buffer
+ *
+ * @return member of CustomStatus:\n
+ * kOk - Ok func exited normally\n
+ * kWrongInputParams - Wrong input params\n
+ * kWrongOutputParams - Wrong output params\n
+ * kRuntimeError - Something went wrong while running
+ */
+
 CustomStatus Normalise(const char *input_buffer, size_t input_size,
                        char *output_buffer, size_t *output_size);
 
