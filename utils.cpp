@@ -158,7 +158,7 @@ CustomStatus MyQSort(LineDescription *index, size_t n_elem, __compar_fn_t cmp) {
     return CustomStatus::kOk;
   }
 
-  size_t partition_index;
+  size_t partition_index = 0;
   CustomStatus status = Partition(index, n_elem, &partition_index, cmp);
   if (status != CustomStatus::kOk) {
     return status;
