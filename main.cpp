@@ -4,9 +4,7 @@
 #include <cstdio>
 
 #include "custom_file_io.h"
-#include "custom_status_lib.h"
 #include "text_holder.h"
-#include "utils.h"
 
 const int kMaxPathLength = 101;
 

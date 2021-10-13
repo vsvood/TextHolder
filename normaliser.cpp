@@ -1,9 +1,9 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "utils.h"
-#include "custom_file_io.h"
-#include "custom_status_lib.h"
+#include "text_holder/src/utils.h"
+#include "text_holder/custom_file_io/include/custom_file_io.h"
+#include "text_holder/include/custom_status.h"
 
 const int kMaxPathLength = 100;
 

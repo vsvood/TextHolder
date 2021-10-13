@@ -2,14 +2,14 @@
 // Created by vsvood on 9/22/21.
 //
 
-#include "text_holder.h"
+#include "../include/text_holder.h"
 
 #include <cstdio>
 #include <cstdlib>
 
-#include "custom_file_io.h"
+#include "../custom_file_io/include/custom_file_io.h"
 #include "utils.h"
-#include "custom_status_lib.h"
+#include "../include/custom_status.h"
 
 CustomStatus TextHolder::LoadFromFile(TextHolder *text_holder,
                                       const char *path) {

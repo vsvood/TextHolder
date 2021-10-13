@@ -2,8 +2,8 @@
 // Created by vsvood on 9/20/21.
 //
 
-#ifndef TEXTHOLDER_CUSTOM_STATUS_LIB_H
-#define TEXTHOLDER_CUSTOM_STATUS_LIB_H
+#ifndef TEXTHOLDER_CUSTOM_STATUS_H
+#define TEXTHOLDER_CUSTOM_STATUS_H
 
 enum class CustomStatus {
   kOk,
@@ -14,4 +14,4 @@ enum class CustomStatus {
 
 extern const char *kCustomStatusDescription[];
 
-#endif  // TEXTHOLDER_CUSTOM_STATUS_LIB_H
+#endif  // TEXTHOLDER_CUSTOM_STATUS_H

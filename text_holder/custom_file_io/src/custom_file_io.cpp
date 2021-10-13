@@ -10,8 +10,6 @@
 
 #include <cstdio>
 
-#include "custom_status_lib.h"
-
 CustomStatus GetFileSize(const char *path, size_t *size) {
   if (CheckInputFile(path) != CustomStatus::kOk) {
     return CustomStatus::kWrongInputParams;

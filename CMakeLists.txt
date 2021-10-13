@@ -5,6 +5,10 @@ set(CXX_COVERAGE_COMPILE_FLAGS "-D NDEBUG -g -std=c++14 -Werror -fmax-errors=1 -
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_COVERAGE_COMPILE_FLAGS}" )
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Normaliser normaliser.cpp utils.cpp custom_file_io.cpp custom_status_lib.cpp)
+include_directories(text_holder/include text_holder/custom_file_io/include)
+add_subdirectory(text_holder)
 
-add_executable(TextHolder text_holder.cpp custom_file_io.cpp utils.cpp custom_status_lib.cpp main.cpp)
+add_executable(Normaliser normaliser.cpp text_holder/src/utils.cpp text_holder/custom_file_io/src/custom_file_io.cpp text_holder/src/custom_status.cpp)
+
+add_executable(Test main.cpp)
+target_link_libraries(Test TextHolder)

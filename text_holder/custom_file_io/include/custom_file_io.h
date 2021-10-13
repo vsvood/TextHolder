@@ -7,7 +7,7 @@
 
 #include <cstddef>
 
-#include "custom_status_lib.h"
+#include "custom_status.h"
 
 CustomStatus GetFileSize(const char *path, size_t *size);
 

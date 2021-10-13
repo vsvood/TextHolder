@@ -7,8 +7,8 @@
 
 #include <cstdlib>
 
-#include "utils.h"
-#include "custom_status_lib.h"
+#include "../src/utils.h"
+#include "custom_status.h"
 
 struct TextHolder {
   LineDescription *index;
